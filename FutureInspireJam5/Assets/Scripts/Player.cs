@@ -6,6 +6,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 500f;
     private Vector2 movement;
     private readonly float boundary = 25f;
+    private string near;
+    private int ironHeld = 0;
+    private int woodHeld = 0;
+
+    public GameObject iron;
+    public GameObject wood;
 
     // TODO: Move to Global
     public KeyCode moveUpKey = KeyCode.W;
@@ -37,6 +43,20 @@ public class Player : MonoBehaviour
         interact.Disable();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.isTrigger) {
+            near = other.tag;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.isTrigger) {
+            near = null;
+        }
+    }
+
     private void Move() {
         movement = move.ReadValue<Vector2>().normalized;
 
@@ -54,7 +74,18 @@ public class Player : MonoBehaviour
     }
 
     private void Interact() {
-        Debug.Log("Interact");
+        if (string.IsNullOrEmpty(near)) {
+            Debug.Log("Interact");
+        } else {
+            Debug.Log("Interacting with " + near);
+            if (near == "Mine") {
+                ironHeld += 1;
+                Instantiate(iron, transform.position + new Vector3(0, -0.3f + (0.4f * ironHeld), -0.7f), Quaternion.identity, mesh.transform);
+            } else if (near == "Tree") {
+                woodHeld += 1;
+                Instantiate(wood, transform.position + new Vector3(0, -0.3f + (0.4f * woodHeld), -0.7f), Quaternion.identity, mesh.transform);
+            }
+        }
     }
 
     public void Interact(InputAction.CallbackContext context) {
