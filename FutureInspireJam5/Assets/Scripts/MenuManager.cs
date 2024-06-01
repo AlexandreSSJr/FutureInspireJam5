@@ -1,21 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
-    private string gameScene = "Game";
+    private readonly string gameScene = "Game";
 
-    public void Play ()
-    {
+    public void Play() {
         SceneManager.LoadScene(gameScene);
     }
 
-    public void Exit ()
-    {
+    public void Exit() {
         Application.Quit();
-    }
-
-    void Start () {
     }
 }
