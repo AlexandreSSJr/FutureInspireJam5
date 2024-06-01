@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Collider col;
     private GameObject mesh;
+    private GameObject woodHold;
+    private GameObject ironHold;
     private PlayerControls playerControls;
     private InputAction move;
     private InputAction interact;
@@ -63,7 +65,7 @@ public class Player : MonoBehaviour
         var direction = new Vector3(movement.x, 0, movement.y);
 
         if (direction != Vector3.zero) {
-            mesh.transform.forward = direction;
+            transform.forward = direction;
         }
         
         rb.velocity = speed * Time.fixedDeltaTime * direction;
@@ -80,10 +82,10 @@ public class Player : MonoBehaviour
             Debug.Log("Interacting with " + near);
             if (near == "Mine") {
                 ironHeld += 1;
-                Instantiate(iron, transform.position + new Vector3(0, -0.3f + (0.4f * ironHeld), -0.7f), Quaternion.identity, mesh.transform);
+                Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform);
             } else if (near == "Tree") {
                 woodHeld += 1;
-                Instantiate(wood, transform.position + new Vector3(0, -0.3f + (0.4f * woodHeld), -0.7f), Quaternion.identity, mesh.transform);
+                Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform);
             }
         }
     }
@@ -106,6 +108,8 @@ public class Player : MonoBehaviour
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         mesh = transform.Find("Mesh").gameObject;
+        woodHold = transform.Find("WoodHold").gameObject;
+        ironHold = transform.Find("IronHold").gameObject;
 
         playerControls = new PlayerControls();
     }
