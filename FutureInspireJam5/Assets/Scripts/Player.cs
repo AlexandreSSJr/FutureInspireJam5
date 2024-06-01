@@ -62,16 +62,13 @@ public class Player : MonoBehaviour
     }
 
     private void Controls() {
-        // if (Input.GetKey(primaryActionKey)) {
-        //     Act();
-        // }
         if (Input.GetKeyDown(resetKey)) {
             Reset();
         }
     }
 
     private void Reset() {
-        transform.position = new Vector3(0, transform.position.y, 0);
+        transform.position = Vector3.zero;
     }
 
     void Awake() {
