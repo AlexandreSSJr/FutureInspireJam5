@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +11,8 @@ public class Player : MonoBehaviour
     private string near;
     private int ironHeld = 0;
     private int woodHeld = 0;
+    private List<GameObject> ironHeldObjects;
+    private List<GameObject> woodHeldObjects;
 
     public GameObject iron;
     public GameObject wood;
@@ -45,17 +49,33 @@ public class Player : MonoBehaviour
         interact.Disable();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
+    private void OnTriggerEnter(Collider other) {
         if (other.isTrigger) {
             near = other.tag;
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other) {
         if (other.isTrigger) {
             near = null;
+        }
+    }
+
+    private void RemoveWoodHeld(int quantity = 1) {
+        for (int i = 0; i < quantity; i++) {
+            if(woodHeldObjects.Any()) {
+                Destroy(woodHeldObjects.Last());
+                woodHeldObjects.RemoveAt(woodHeldObjects.Count - 1);
+            }
+        }
+    }
+
+    private void RemoveIronHeld(int quantity = 1) {
+        for (int i = 0; i < quantity; i++) {
+            if(ironHeldObjects.Any()) {
+                Destroy(ironHeldObjects.Last());
+                ironHeldObjects.RemoveAt(ironHeldObjects.Count - 1);
+            }
         }
     }
 
@@ -75,18 +95,29 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Interact() {
-        if (string.IsNullOrEmpty(near)) {
-            Debug.Log("Interact");
-        } else {
-            Debug.Log("Interacting with " + near);
-            if (near == "Mine") {
+    private void Interact() {         
+        switch(near) {
+            case "Mine":
+                ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
                 ironHeld += 1;
-                Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform);
-            } else if (near == "Tree") {
+                break;
+            case "Tree":
+                woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
                 woodHeld += 1;
-                Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform);
-            }
+                break;
+            case "Swordsmith":
+                if (woodHeld >= 1 && ironHeld >= 3) {
+                    woodHeld -= 1;
+                    RemoveWoodHeld();
+                    ironHeld -= 3;
+                    RemoveIronHeld(3);
+                    Debug.Log("Swordsmith Interact");
+                    Debug.Log(woodHeld);
+                    Debug.Log(ironHeld);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -108,8 +139,11 @@ public class Player : MonoBehaviour
         col = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         mesh = transform.Find("Mesh").gameObject;
+
         woodHold = transform.Find("WoodHold").gameObject;
         ironHold = transform.Find("IronHold").gameObject;
+        woodHeldObjects = new List<GameObject>();
+        ironHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();
     }
