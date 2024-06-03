@@ -11,11 +11,17 @@ public class Player : MonoBehaviour
     private string near;
     private int ironHeld = 0;
     private int woodHeld = 0;
+    private int swordHeld = 0;
+    private int shieldHeld = 0;
     private List<GameObject> ironHeldObjects;
     private List<GameObject> woodHeldObjects;
+    private List<GameObject> swordHeldObjects;
+    private List<GameObject> shieldHeldObjects;
 
     public GameObject iron;
     public GameObject wood;
+    public GameObject sword;
+    public GameObject shield;
 
     // TODO: Move to Global
     public KeyCode moveUpKey = KeyCode.W;
@@ -32,6 +38,8 @@ public class Player : MonoBehaviour
     private GameObject mesh;
     private GameObject woodHold;
     private GameObject ironHold;
+    private GameObject swordHold;
+    private GameObject shieldHold;
     private PlayerControls playerControls;
     private InputAction move;
     private InputAction interact;
@@ -79,6 +87,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void RemoveSwordHeld(int quantity = 1) {
+        for (int i = 0; i < quantity; i++) {
+            if(swordHeldObjects.Any()) {
+                Destroy(swordHeldObjects.Last());
+                swordHeldObjects.RemoveAt(swordHeldObjects.Count - 1);
+            }
+        }
+    }
+
+    private void RemoveShieldHeld(int quantity = 1) {
+        for (int i = 0; i < quantity; i++) {
+            if(shieldHeldObjects.Any()) {
+                Destroy(shieldHeldObjects.Last());
+                shieldHeldObjects.RemoveAt(shieldHeldObjects.Count - 1);
+            }
+        }
+    }
+
     private void Move() {
         movement = move.ReadValue<Vector2>().normalized;
 
@@ -111,9 +137,18 @@ public class Player : MonoBehaviour
                     RemoveWoodHeld();
                     ironHeld -= 3;
                     RemoveIronHeld(3);
-                    Debug.Log("Swordsmith Interact");
-                    Debug.Log(woodHeld);
-                    Debug.Log(ironHeld);
+                    swordHeldObjects.Add(Instantiate(sword, swordHold.transform.position + new Vector3(0, 0.4f * swordHeld, 0), transform.rotation, transform));
+                    swordHeld += 1;
+                }
+                break;
+            case "Shieldsmith":
+                if (woodHeld >= 3 && ironHeld >= 1) {
+                    woodHeld -= 3;
+                    RemoveWoodHeld(3);
+                    ironHeld -= 1;
+                    RemoveIronHeld();
+                    shieldHeldObjects.Add(Instantiate(shield, shieldHold.transform.position + new Vector3(0, 0.4f * shieldHeld, 0), transform.rotation, transform));
+                    shieldHeld += 1;
                 }
                 break;
             default:
@@ -142,8 +177,12 @@ public class Player : MonoBehaviour
 
         woodHold = transform.Find("WoodHold").gameObject;
         ironHold = transform.Find("IronHold").gameObject;
+        swordHold = transform.Find("SwordHold").gameObject;
+        shieldHold = transform.Find("ShieldHold").gameObject;
         woodHeldObjects = new List<GameObject>();
         ironHeldObjects = new List<GameObject>();
+        swordHeldObjects = new List<GameObject>();
+        shieldHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();
     }
