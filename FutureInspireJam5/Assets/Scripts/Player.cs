@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 500f;
+    [SerializeField] private float maxHealth = 3f;
+    [SerializeField] private float attackRate = 0.5f;
+    private float health;
+    private float attackCooldown;
     private Vector2 movement;
     private readonly float boundary = 25f;
     private string near;
@@ -22,16 +28,8 @@ public class Player : MonoBehaviour
     public GameObject wood;
     public GameObject sword;
     public GameObject shield;
-
-    // TODO: Move to Global
-    public KeyCode moveUpKey = KeyCode.W;
-    public KeyCode moveDownKey = KeyCode.S;
-    public KeyCode moveLeftKey = KeyCode.A;
-    public KeyCode moveRightKey = KeyCode.D;
-    public KeyCode primaryActionKey = KeyCode.Mouse0;
-    public KeyCode secondaryActionKey = KeyCode.Mouse1;
-    public KeyCode dashKey = KeyCode.LeftShift;
-    public KeyCode resetKey = KeyCode.R;
+    public GameObject projectile;
+    public Slider healthSlider;
 
     private Rigidbody rb;
     private Collider col;
@@ -43,6 +41,17 @@ public class Player : MonoBehaviour
     private PlayerControls playerControls;
     private InputAction move;
     private InputAction interact;
+    private readonly string gameOverScene = "Menu";
+
+    public void Damage(float dmg) {
+        health -= dmg;
+
+        if (health <= 0) {
+            SceneManager.LoadScene(gameOverScene);
+        }
+        
+        healthSlider.value = health/maxHealth;
+    }
 
     private void OnEnable() {
         move = playerControls.Player.Move;
@@ -160,10 +169,10 @@ public class Player : MonoBehaviour
         Interact();
     }
 
-    private void Controls() {
-        if (Input.GetKeyDown(resetKey)) {
-            Reset();
-        }
+    private void Attack() {
+        // Instantiate(projectile, swordHold.transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectile, swordHold.transform.position, Quaternion.identity);
+        newProjectile.GetComponent<Projectile>().Point("Player", Vector3.forward);
     }
 
     private void Reset() {
@@ -185,10 +194,7 @@ public class Player : MonoBehaviour
         shieldHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();
-    }
-
-    void Update() {
-        Controls();
+        InvokeRepeating("Attack", 0f, attackRate);
     }
 
     void FixedUpdate() {

@@ -8,6 +8,8 @@ TagManager:
   - Tree
   - Swordsmith
   - Shieldsmith
+  - Projectile
+  - Enemy
   layers:
   - Default
   - TransparentFX
