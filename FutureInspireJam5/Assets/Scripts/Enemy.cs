@@ -3,17 +3,14 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float speed = 100f;
-    [SerializeField] private float maxHealth = 3f;
-    [SerializeField] private float attackRate = 1f;
+    private float speed = 100f;
+    private float maxHealth = 3f;
+    private float attackRate = 2f;
     private bool alive = true;
     private float health;
-    private float attackCooldown;
-    private Vector2 movement;
+    private Vector3 movement;
     private Rigidbody rb;
     private GameObject mesh;
-    private GameObject armR;
-    public GameObject player;
     public GameObject projectile;
     public Slider healthSlider;
 
@@ -30,50 +27,32 @@ public class Enemy : MonoBehaviour
     }
 
     private void Attack() {
-        if (attackCooldown <= 0) {
-            GameObject newProjectile = Instantiate(projectile, armR.transform.position, Quaternion.identity);
-            newProjectile.GetComponent<Projectile>().Point("Enemy", mesh.transform.forward.normalized);
-
-            attackCooldown = attackRate;
-        }
-    }
-
-    private void UpdateCooldowns() {
-        if (attackCooldown > 0) {
-            attackCooldown -= 0.05f;
-        }
+        GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, -2f), Quaternion.identity);
+        newProjectile.GetComponent<Projectile>().Point("Enemy", Vector3.back.normalized);
     }
 
     private void Move() {
-        rb.velocity = new Vector3(movement.x, 0, movement.y) * speed * Time.fixedDeltaTime;
+        rb.velocity = movement * speed * Time.fixedDeltaTime;
 
     }
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
         mesh = transform.Find("Mesh").gameObject;
-        armR = transform.Find("SwordHold").gameObject;
         
         health = maxHealth;
         healthSlider.value = health/maxHealth;
         alive = true;
-    }
 
-    void Act() {
-        if (mesh && player) {
-            mesh.transform.LookAt(player.transform);
-            Attack();
+        transform.LookAt(Vector3.back.normalized);
+        movement = Vector3.back;
 
-            movement = new Vector2(mesh.transform.forward.x, mesh.transform.forward.z).normalized;
-
-            Move();
-        }
+        InvokeRepeating(nameof(Attack), 0f, attackRate);
     }
 
     void FixedUpdate() {
         if (alive) {
-            Act();
-            UpdateCooldowns();
+            Move();
         }
     }
 }

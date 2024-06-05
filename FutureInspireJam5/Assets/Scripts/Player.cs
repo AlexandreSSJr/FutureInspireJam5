@@ -7,13 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float speed = 500f;
-    [SerializeField] private float maxHealth = 3f;
-    [SerializeField] private float attackRate = 0.5f;
+    private readonly float speed = 500f;
+    private readonly float maxHealth = 10f;
+    private readonly float attackRate = 0.5f;
     private float health;
-    private float attackCooldown;
     private Vector2 movement;
-    private readonly float boundary = 25f;
+    private readonly float boundary = 50f;
     private string near;
     private int ironHeld = 0;
     private int woodHeld = 0;
@@ -170,8 +169,7 @@ public class Player : MonoBehaviour
     }
 
     private void Attack() {
-        // Instantiate(projectile, swordHold.transform.position, Quaternion.identity);
-        GameObject newProjectile = Instantiate(projectile, swordHold.transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, 2f), Quaternion.identity);
         newProjectile.GetComponent<Projectile>().Point("Player", Vector3.forward);
     }
 
@@ -194,7 +192,11 @@ public class Player : MonoBehaviour
         shieldHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();
-        InvokeRepeating("Attack", 0f, attackRate);
+
+        health = maxHealth;
+        healthSlider.value = health/maxHealth;
+
+        InvokeRepeating(nameof(Attack), 0f, attackRate);
     }
 
     void FixedUpdate() {

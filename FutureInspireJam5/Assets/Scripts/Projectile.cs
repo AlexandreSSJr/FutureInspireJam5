@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 1000f;
-    [SerializeField] private float lifetime = 5f;
-    [SerializeField] private float damage = 1f;
+    private float speed = 800f;
+    private float lifetime = 5f;
+    private float damage = 1f;
 
     private Rigidbody rb;
     private string origin;
@@ -41,11 +41,13 @@ public class Projectile : MonoBehaviour
                     other.GetComponent<Enemy>().Damage(damage);
                     Hit();
                 }
-                // if (origin == "Enemy" && other.tag == "Player") {
-                //     other.GetComponent<Player>().Damage(damage);
-                //     Hit();
-                // }
+                if (origin == "Enemy" && other.tag == "Player") {
+                    other.GetComponent<Player>().Damage(damage);
+                    Hit();
+                }
                 if (other.tag == "Wall" || other.tag == "Projectile") {
+                    Hit();
+                } else {
                     Hit();
                 }
             }
