@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -19,9 +21,10 @@ public class Projectile : MonoBehaviour
         return n;
     }
 
-    public void Point(string originTag, Vector3 aim) {
+    public void Point(string originTag, float dmg, Vector3 aim) {
         origin = originTag;
         direction = aim;
+        damage = dmg;
         mesh.transform.eulerAngles = new Vector3(-GetAngleFromVectorFloat(aim), 0, 0);
     }
 
@@ -45,8 +48,7 @@ public class Projectile : MonoBehaviour
                     other.GetComponent<Player>().Damage(damage);
                     Hit();
                 }
-                if (other.tag == "Wall" || other.tag == "Projectile") {
-                    Hit();
+                if (other.tag == "Barrier") {
                 } else {
                     Hit();
                 }

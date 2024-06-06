@@ -10,6 +10,7 @@ TagManager:
   - Shieldsmith
   - Projectile
   - Enemy
+  - Barrier
   layers:
   - Default
   - TransparentFX

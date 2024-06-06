@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class Player : MonoBehaviour
 {
     private readonly float speed = 500f;
-    private readonly float maxHealth = 10f;
-    private readonly float attackRate = 0.5f;
+    private float maxHealth = 10f;
+    private float attackRate = 0.5f;
+    private float attackDmg = 1f;
     private float health;
     private Vector2 movement;
     private readonly float boundary = 50f;
     private string near;
+    private GameObject nearObj;
     private int ironHeld = 0;
     private int woodHeld = 0;
     private int swordHeld = 0;
@@ -68,12 +71,14 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.isTrigger) {
             near = other.tag;
+            nearObj = other.gameObject;
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.isTrigger) {
             near = null;
+            nearObj = null;
         }
     }
 
@@ -147,6 +152,7 @@ public class Player : MonoBehaviour
                     RemoveIronHeld(3);
                     swordHeldObjects.Add(Instantiate(sword, swordHold.transform.position + new Vector3(0, 0.4f * swordHeld, 0), transform.rotation, transform));
                     swordHeld += 1;
+                    attackDmg += 1f;
                 }
                 break;
             case "Shieldsmith":
@@ -157,6 +163,19 @@ public class Player : MonoBehaviour
                     RemoveIronHeld();
                     shieldHeldObjects.Add(Instantiate(shield, shieldHold.transform.position + new Vector3(0, 0.4f * shieldHeld, 0), transform.rotation, transform));
                     shieldHeld += 1;
+                    maxHealth += 5f;
+                    health += 5f;
+                    healthSlider.value = health/maxHealth;
+                }
+                break;
+            case "Barrier":
+                Barrier barrier = nearObj.GetComponent<Barrier>();
+                if (woodHeld >= 5 && ironHeld >= 5 && barrier != null) {
+                    woodHeld -= 5;
+                    RemoveWoodHeld(5);
+                    ironHeld -= 5;
+                    RemoveIronHeld(5);
+                    barrier.Rebuild();
                 }
                 break;
             default:
@@ -170,7 +189,7 @@ public class Player : MonoBehaviour
 
     private void Attack() {
         GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, 2f), Quaternion.identity);
-        newProjectile.GetComponent<Projectile>().Point("Player", Vector3.forward);
+        newProjectile.GetComponent<Projectile>().Point("Player", attackDmg, Vector3.forward);
     }
 
     private void Reset() {

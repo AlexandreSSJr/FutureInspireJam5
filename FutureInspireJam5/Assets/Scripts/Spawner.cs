@@ -8,9 +8,8 @@ public class Spawner : MonoBehaviour
     public GameObject enemy;
 
     private void SpawnEnemy() {
-        int rand = Random.Range(-2, 3);
-        Debug.Log(rand);
-        Instantiate(enemy, transform.position + new Vector3(rand * 5, 0f, 0f), Quaternion.identity);
+        int rand = Random.Range(-3, 4);
+        Instantiate(enemy, transform.position + new Vector3(rand * 3, 0f, 0f), Quaternion.identity);
     }
 
     void Awake()
