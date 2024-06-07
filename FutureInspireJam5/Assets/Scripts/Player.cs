@@ -12,9 +12,11 @@ public class Player : MonoBehaviour
     private float maxHealth = 10f;
     private float attackRate = 0.5f;
     private float attackDmg = 1f;
+    private bool shouldAttack = false;
     private float health;
     private Vector2 movement;
     private readonly float boundary = 50f;
+    private readonly float attackBoundary = 10f;
     private string near;
     private GameObject nearObj;
     private int ironHeld = 0;
@@ -72,6 +74,11 @@ public class Player : MonoBehaviour
         if (other.isTrigger) {
             near = other.tag;
             nearObj = other.gameObject;
+            if (other.CompareTag("Tree")) {
+                InvokeRepeating(nameof(GatherWood), 1f, 1f);
+            } else if (other.CompareTag("Mine")) {
+                InvokeRepeating(nameof(GatherIron), 1f, 1f);
+            }
         }
     }
 
@@ -79,6 +86,11 @@ public class Player : MonoBehaviour
         if (other.isTrigger) {
             near = null;
             nearObj = null;
+            if (other.CompareTag("Tree")) {
+                CancelInvoke(nameof(GatherWood));
+            } else if (other.CompareTag("Mine")) {
+                CancelInvoke(nameof(GatherIron));
+            }
         }
     }
 
@@ -132,17 +144,31 @@ public class Player : MonoBehaviour
         if (transform.position.x > boundary || transform.position.x < -boundary || transform.position.z > boundary || transform.position.z < -boundary) {
             Reset();
         }
+
+        if (shouldAttack && (transform.position.x > attackBoundary || transform.position.x < -attackBoundary)) {
+            shouldAttack = false;
+        } else if (!shouldAttack && transform.position.x < attackBoundary && transform.position.x > -attackBoundary) {
+            shouldAttack = true;
+        }
+    }
+
+    private void GatherIron() {
+        ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
+        ironHeld += 1;
+    }
+
+    private void GatherWood() {
+        woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
+        woodHeld += 1;
     }
 
     private void Interact() {         
         switch(near) {
             case "Mine":
-                ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
-                ironHeld += 1;
+                GatherIron();
                 break;
             case "Tree":
-                woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
-                woodHeld += 1;
+                GatherWood();
                 break;
             case "Swordsmith":
                 if (woodHeld >= 1 && ironHeld >= 3) {
@@ -188,8 +214,10 @@ public class Player : MonoBehaviour
     }
 
     private void Attack() {
-        GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, 2f), Quaternion.identity);
-        newProjectile.GetComponent<Projectile>().Point("Player", attackDmg, Vector3.forward);
+        if (shouldAttack) {
+            GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, 2f), Quaternion.identity);
+            newProjectile.GetComponent<Projectile>().Point("Player", attackDmg, Vector3.forward);
+        }
     }
 
     private void Reset() {
@@ -215,7 +243,7 @@ public class Player : MonoBehaviour
         health = maxHealth;
         healthSlider.value = health/maxHealth;
 
-        InvokeRepeating(nameof(Attack), 0f, attackRate);
+        InvokeRepeating(nameof(Attack), 1f, attackRate);
     }
 
     void FixedUpdate() {
