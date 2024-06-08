@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    private float speed = 100f;
-    private float maxHealth = 3f;
-    private float attackRate = 2f;
-    private float attackDmg = 1f;
+    [SerializeField] float speed = 100f;
+    [SerializeField] float maxHealth = 3f;
+    [SerializeField] float attackRate = 2f;
+    [SerializeField] float attackDmg = 1f;
     private bool alive = true;
     private float health;
     private Vector3 movement;

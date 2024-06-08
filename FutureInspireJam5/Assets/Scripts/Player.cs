@@ -45,13 +45,13 @@ public class Player : MonoBehaviour
     private PlayerControls playerControls;
     private InputAction move;
     private InputAction interact;
-    private readonly string gameOverScene = "Menu";
+    private readonly string gameOverScene = "Defeat";
 
     public void Damage(float dmg) {
         health -= dmg;
 
         if (health <= 0) {
-            SceneManager.LoadScene(gameOverScene);
+            SceneManager.LoadScene(gameOverScene, LoadSceneMode.Single);
         }
         
         healthSlider.value = health/maxHealth;

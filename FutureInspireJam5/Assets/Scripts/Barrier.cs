@@ -9,7 +9,7 @@ public class Barrier : MonoBehaviour
     private float maxHealth = 100f;
     private float health;
     public Slider healthSlider;
-    private readonly string gameOverScene = "Menu";
+    private readonly string gameOverScene = "Defeat";
 
     public void Rebuild() {
         if (health > maxHealth / 2) {
@@ -25,7 +25,7 @@ public class Barrier : MonoBehaviour
         health -= dmg;
 
         if (health <= 0) {
-            SceneManager.LoadScene(gameOverScene);
+            SceneManager.LoadScene(gameOverScene, LoadSceneMode.Single);
         }
         
         healthSlider.value = health/maxHealth;
