@@ -20,12 +20,14 @@ public class Player : MonoBehaviour
     private string near;
     private GameObject nearObj;
     private int ironHeld = 0;
+    private const int maxIronHeld = 6;
     private int woodHeld = 0;
-    private int swordHeld = 0;
+    private const int maxWoodHeld = 6;
+    private int bowLevel = 0;
+    private const int bowMaxLevel = 5;
     private int shieldHeld = 0;
     private List<GameObject> ironHeldObjects;
     private List<GameObject> woodHeldObjects;
-    private List<GameObject> swordHeldObjects;
     private List<GameObject> shieldHeldObjects;
 
     public GameObject iron;
@@ -34,10 +36,12 @@ public class Player : MonoBehaviour
     public GameObject shield;
     public GameObject projectile;
     public Slider healthSlider;
+    public List<Material> bowMaterials;
 
     private Rigidbody rb;
     private Collider col;
     private GameObject mesh;
+    private GameObject bow;
     private GameObject woodHold;
     private GameObject ironHold;
     private GameObject swordHold;
@@ -112,24 +116,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void RemoveSwordHeld(int quantity = 1) {
-        for (int i = 0; i < quantity; i++) {
-            if(swordHeldObjects.Any()) {
-                Destroy(swordHeldObjects.Last());
-                swordHeldObjects.RemoveAt(swordHeldObjects.Count - 1);
-            }
-        }
-    }
-
-    private void RemoveShieldHeld(int quantity = 1) {
-        for (int i = 0; i < quantity; i++) {
-            if(shieldHeldObjects.Any()) {
-                Destroy(shieldHeldObjects.Last());
-                shieldHeldObjects.RemoveAt(shieldHeldObjects.Count - 1);
-            }
-        }
-    }
-
     private void Move() {
         movement = move.ReadValue<Vector2>().normalized;
 
@@ -147,22 +133,31 @@ public class Player : MonoBehaviour
 
         if (shouldAttack && (transform.position.x > attackBoundary || transform.position.x < -attackBoundary)) {
             shouldAttack = false;
+            // bow.GetComponent<Renderer>().enabled = false;
         } else if (!shouldAttack && transform.position.x < attackBoundary && transform.position.x > -attackBoundary) {
             shouldAttack = true;
+            // bow.GetComponent<Renderer>().enabled = true;
         }
     }
 
     private void GatherIron() {
-        ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
-        ironHeld += 1;
+        if (ironHeld < maxIronHeld) {
+            ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
+            ironHeld += 1;
+        }
     }
 
     private void GatherWood() {
-        woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
-        woodHeld += 1;
+        if (woodHeld < maxWoodHeld) {
+            woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
+            woodHeld += 1;
+        }
     }
 
-    private void Interact() {         
+    private void Interact() {
+        int woodCost;
+        int ironCost;
+
         switch(near) {
             case "Mine":
                 GatherIron();
@@ -171,22 +166,30 @@ public class Player : MonoBehaviour
                 GatherWood();
                 break;
             case "Swordsmith":
-                if (woodHeld >= 1 && ironHeld >= 3) {
-                    woodHeld -= 1;
-                    RemoveWoodHeld();
-                    ironHeld -= 3;
-                    RemoveIronHeld(3);
-                    swordHeldObjects.Add(Instantiate(sword, swordHold.transform.position + new Vector3(0, 0.4f * swordHeld, 0), transform.rotation, transform));
-                    swordHeld += 1;
+                woodCost = 1;
+                ironCost = 3;
+
+                if (bowLevel < bowMaxLevel && woodHeld >= woodCost && ironHeld >= ironCost) {
+                    woodHeld -= woodCost;
+                    RemoveWoodHeld(woodCost);
+                    ironHeld -= ironCost;
+                    RemoveIronHeld(ironCost);
+
+                    bow.GetComponent<Renderer>().material = bowMaterials[Mathf.Min(bowLevel, bowMaterials.Count)];
+                    bowLevel += 1;
                     attackDmg += 1f;
                 }
                 break;
             case "Shieldsmith":
-                if (woodHeld >= 3 && ironHeld >= 1) {
-                    woodHeld -= 3;
-                    RemoveWoodHeld(3);
-                    ironHeld -= 1;
-                    RemoveIronHeld();
+                woodCost = 3;
+                ironCost = 1;
+                
+                if (woodHeld >= woodCost && ironHeld >= ironCost) {
+                    woodHeld -= woodCost;
+                    RemoveWoodHeld(woodCost);
+                    ironHeld -= ironCost;
+                    RemoveIronHeld(ironCost);
+
                     shieldHeldObjects.Add(Instantiate(shield, shieldHold.transform.position + new Vector3(0, 0.4f * shieldHeld, 0), transform.rotation, transform));
                     shieldHeld += 1;
                     maxHealth += 5f;
@@ -195,12 +198,15 @@ public class Player : MonoBehaviour
                 }
                 break;
             case "Barrier":
+                woodCost = 5;
+                ironCost = 5;
+
                 Barrier barrier = nearObj.GetComponent<Barrier>();
-                if (woodHeld >= 5 && ironHeld >= 5 && barrier != null) {
-                    woodHeld -= 5;
-                    RemoveWoodHeld(5);
-                    ironHeld -= 5;
-                    RemoveIronHeld(5);
+                if (woodHeld >= woodCost && ironHeld >= ironCost && barrier != null) {
+                    woodHeld -= woodCost;
+                    RemoveWoodHeld(woodCost);
+                    ironHeld -= ironCost;
+                    RemoveIronHeld(ironCost);
                     barrier.Rebuild();
                 }
                 break;
@@ -215,7 +221,7 @@ public class Player : MonoBehaviour
 
     private void Attack() {
         if (shouldAttack) {
-            GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, 2f), Quaternion.identity);
+            GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.7f, 3f), Quaternion.identity);
             newProjectile.GetComponent<Projectile>().Point("Player", attackDmg, Vector3.forward);
         }
     }
@@ -229,13 +235,13 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mesh = transform.Find("Mesh").gameObject;
 
+        bow = transform.Find("Bow").gameObject;
         woodHold = transform.Find("WoodHold").gameObject;
         ironHold = transform.Find("IronHold").gameObject;
         swordHold = transform.Find("SwordHold").gameObject;
         shieldHold = transform.Find("ShieldHold").gameObject;
         woodHeldObjects = new List<GameObject>();
         ironHeldObjects = new List<GameObject>();
-        swordHeldObjects = new List<GameObject>();
         shieldHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();

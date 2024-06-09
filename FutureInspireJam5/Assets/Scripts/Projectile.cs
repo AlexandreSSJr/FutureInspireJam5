@@ -30,6 +30,7 @@ public class Projectile : MonoBehaviour
 
     private void Move() {
         rb.velocity = new Vector3(direction.x, 0, direction.z).normalized * speed * Time.fixedDeltaTime;
+        transform.Rotate(new Vector3(0, 0, 5f));
     }
 
     private void Hit() {
@@ -43,12 +44,11 @@ public class Projectile : MonoBehaviour
                 if (origin == "Player" && other.tag == "Enemy") {
                     other.GetComponent<Enemy>().Damage(damage);
                     Hit();
-                }
-                if (origin == "Enemy" && other.tag == "Player") {
+                } if (origin == "Enemy" && other.tag == "Player") {
                     other.GetComponent<Player>().Damage(damage);
                     Hit();
-                }
-                if (other.tag == "Barrier") {
+                } if (other.tag == "Barrier") {
+                // } if ((origin == "Enemy" && other.tag == "Enemy") || (origin == "Player" && other.tag == "Player")) {
                 } else {
                     Hit();
                 }

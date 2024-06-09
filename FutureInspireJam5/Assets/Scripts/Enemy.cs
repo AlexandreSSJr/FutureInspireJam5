@@ -40,13 +40,12 @@ public class Enemy : MonoBehaviour
                 barrier = other.gameObject;
                 speed = 0f;
             }
-            CancelInvoke(nameof(Attack));
             InvokeRepeating(nameof(DamageBarrier), 0f, attackRate);
         }
     }
 
     private void Attack() {
-        GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.5f, -2f), Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.7f, -3f), Quaternion.identity);
         newProjectile.GetComponent<Projectile>().Point("Enemy", attackDmg, Vector3.back.normalized);
     }
 

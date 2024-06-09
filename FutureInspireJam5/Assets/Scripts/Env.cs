@@ -6,7 +6,7 @@ public class Env : MonoBehaviour
 {
     public static Env Instance { get; private set; }
 
-    public float timer = 180;
+    public float timer;
     public bool countTime = true;
     [SerializeField] private TMP_Text timerText;
     private readonly string victoryScene = "Victory";
@@ -36,7 +36,7 @@ public class Env : MonoBehaviour
             Destroy(gameObject);
         }
 
-        timer = 180;
+        timer = 300;
         countTime = true;
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     private float enemySpawnRate;
-    private float fasterSpawnRateTimer = 25f;
+    private const float fasterSpawnRateTimer = 30f;
     public GameObject firstEnemy;
     public GameObject secondEnemy;
     public GameObject thirdEnemy;
@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour
 
     void Awake()
     {
-        enemySpawnRate = 4f;
+        enemySpawnRate = 5f;
         enemies = new List<GameObject> {firstEnemy, firstEnemy, firstEnemy};
 
         CancelInvoke();

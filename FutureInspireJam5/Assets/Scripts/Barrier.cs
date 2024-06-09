@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Barrier : MonoBehaviour
 {
-    private float maxHealth = 100f;
+    private float maxHealth = 200f;
     private float health;
     public Slider healthSlider;
     private readonly string gameOverScene = "Defeat";
