@@ -841,11 +841,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7fa8d0694f5d649826a985d224e640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 200
-  maxHealth: 10
-  attackRate: 1.2
+  speed: 150
+  maxHealth: 12
+  attackRate: 1.3
   attackDmg: 3
-  projectile: {fileID: 7531717019344857371, guid: 22765c9e67a50fd45aef3bfa32f5205e, type: 3}
+  projectile: {fileID: 7531717019344857371, guid: be4e79b76378e3e4d9cbcc4122ea00d9, type: 3}
   healthSlider: {fileID: 8419779373458438798}
 --- !u!1 &7990427772637380466
 GameObject:

@@ -17,8 +17,12 @@ public class Spawner : MonoBehaviour
 
     private void FasterSpawnRate() {
         if (enemySpawnRate > 1) {
-            enemySpawnRate -= 0.5f;
-            enemies.Add(secondEnemy);
+            enemySpawnRate -= 0.4f;
+            if (enemySpawnRate > 3f) {
+                enemies.Add(secondEnemy);
+            } else {
+                enemies.Add(thirdEnemy);
+            }
         } else {
             enemySpawnRate /= 2;
             enemies.Add(thirdEnemy);

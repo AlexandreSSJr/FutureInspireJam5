@@ -232,7 +232,7 @@ MonoBehaviour:
   - Assets/Materials/Wood.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_30ffce26-7886-44ab-87a1-cd0aaf466444
+    name: UM_OperatedMesh_e073d46c-4aa5-438b-9512-dfa13d433a32
     skinnedMesh: 0
     sharedMesh: {fileID: 105794080987380399}
     buidVersion:
@@ -247,7 +247,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 30ffce26-7886-44ab-87a1-cd0aaf466444
+  sourceMeshRendererGUID: e073d46c-4aa5-438b-9512-dfa13d433a32
   guid: b157182c-08e4-4452-a112-ed39893fd48c
   localOptions:
     RecalculateTangents: 0
@@ -365,7 +365,7 @@ MonoBehaviour:
   - Assets/Materials/Wood.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_58991ba4-6a53-40a0-9d04-f2af70df0c98
+    name: UM_OperatedMesh_1c66d3a3-6cb2-4c01-8e94-874b0159c531
     skinnedMesh: 0
     sharedMesh: {fileID: 6179506583190109290}
     buidVersion:
@@ -380,7 +380,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 58991ba4-6a53-40a0-9d04-f2af70df0c98
+  sourceMeshRendererGUID: 1c66d3a3-6cb2-4c01-8e94-874b0159c531
   guid: b157182c-08e4-4452-a112-ed39893fd48c
   localOptions:
     RecalculateTangents: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   - Assets/Materials/Green Goblin.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_2ed68480-8720-4045-9174-7ed5f1719c9f
+    name: UM_OperatedMesh_76a3c604-f759-4b96-8816-9942121efa6f
     skinnedMesh: 0
     sharedMesh: {fileID: -8705357408269887459}
     buidVersion:
@@ -515,7 +515,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 2ed68480-8720-4045-9174-7ed5f1719c9f
+  sourceMeshRendererGUID: 76a3c604-f759-4b96-8816-9942121efa6f
   guid: b8cad793-38a6-42d6-87d5-8d72da6fea59
   localOptions:
     RecalculateTangents: 0
@@ -665,7 +665,7 @@ MonoBehaviour:
   - Assets/Materials/Green Goblin.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_5d6bfc8a-754b-461b-87dd-149c8baff09d
+    name: UM_OperatedMesh_38b055fa-51a2-46e9-a375-5e1e00d187d3
     skinnedMesh: 0
     sharedMesh: {fileID: -8542683973748602790}
     buidVersion:
@@ -680,7 +680,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 5d6bfc8a-754b-461b-87dd-149c8baff09d
+  sourceMeshRendererGUID: 38b055fa-51a2-46e9-a375-5e1e00d187d3
   guid: b157182c-08e4-4452-a112-ed39893fd48c
   localOptions:
     RecalculateTangents: 0
@@ -845,7 +845,7 @@ MonoBehaviour:
   maxHealth: 3
   attackRate: 2
   attackDmg: 1
-  projectile: {fileID: 7531717019344857371, guid: 22765c9e67a50fd45aef3bfa32f5205e, type: 3}
+  projectile: {fileID: 7531717019344857371, guid: 2cfac6f4826715045b906f4bc7bc00fc, type: 3}
   healthSlider: {fileID: 8419779373458438798}
 --- !u!1 &7990427772637380466
 GameObject:
@@ -991,7 +991,7 @@ MonoBehaviour:
   - Assets/Materials/Green Goblin.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_61306b22-b659-444e-88dd-272c61d2af7b
+    name: UM_OperatedMesh_2d639ee8-d362-4804-b649-c1a51b8156f5
     skinnedMesh: 0
     sharedMesh: {fileID: 6432757787418769427}
     buidVersion:
@@ -1006,7 +1006,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 61306b22-b659-444e-88dd-272c61d2af7b
+  sourceMeshRendererGUID: 2d639ee8-d362-4804-b649-c1a51b8156f5
   guid: b157182c-08e4-4452-a112-ed39893fd48c
   localOptions:
     RecalculateTangents: 0
