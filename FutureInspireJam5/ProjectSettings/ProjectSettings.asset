@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: LoneRobotStudios
-  productName: FutureInspireJam5
+  companyName: Lone Robot Studio
+  productName: Without a Way Out
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.078431375, b: 0.003921569, a: 1}

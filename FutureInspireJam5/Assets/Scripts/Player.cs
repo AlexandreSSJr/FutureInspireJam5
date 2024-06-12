@@ -25,15 +25,13 @@ public class Player : MonoBehaviour
     private const int maxWoodHeld = 6;
     private int bowLevel = 0;
     private const int bowMaxLevel = 5;
-    private int shieldHeld = 0;
+    private int shieldLevel = 0;
+    private const int shieldMaxLevel = 5;
     private List<GameObject> ironHeldObjects;
     private List<GameObject> woodHeldObjects;
-    private List<GameObject> shieldHeldObjects;
 
     public GameObject iron;
     public GameObject wood;
-    public GameObject sword;
-    public GameObject shield;
     public GameObject projectile;
     public Slider healthSlider;
     public List<Material> bowMaterials;
@@ -42,9 +40,9 @@ public class Player : MonoBehaviour
     private Collider col;
     private GameObject mesh;
     private GameObject bow;
+    private GameObject shield;
     private GameObject woodHold;
     private GameObject ironHold;
-    private GameObject swordHold;
     private GameObject shieldHold;
     private PlayerControls playerControls;
     private InputAction move;
@@ -184,14 +182,14 @@ public class Player : MonoBehaviour
                 woodCost = 3;
                 ironCost = 1;
                 
-                if (woodHeld >= woodCost && ironHeld >= ironCost) {
+                if (shieldLevel < shieldMaxLevel && woodHeld >= woodCost && ironHeld >= ironCost) {
                     woodHeld -= woodCost;
                     RemoveWoodHeld(woodCost);
                     ironHeld -= ironCost;
                     RemoveIronHeld(ironCost);
 
-                    shieldHeldObjects.Add(Instantiate(shield, shieldHold.transform.position + new Vector3(0, 0.4f * shieldHeld, 0), transform.rotation, transform));
-                    shieldHeld += 1;
+                    shield.GetComponent<Renderer>().material = bowMaterials[Mathf.Min(shieldLevel, bowMaterials.Count)];
+                    shieldLevel += 1;
                     maxHealth += 5f;
                     health += 5f;
                     healthSlider.value = health/maxHealth;
@@ -236,13 +234,12 @@ public class Player : MonoBehaviour
         mesh = transform.Find("Mesh").gameObject;
 
         bow = transform.Find("Bow").gameObject;
+        shield = transform.Find("ShieldHold").Find("Shield").Find("Mesh").gameObject;
         woodHold = transform.Find("WoodHold").gameObject;
         ironHold = transform.Find("IronHold").gameObject;
-        swordHold = transform.Find("SwordHold").gameObject;
         shieldHold = transform.Find("ShieldHold").gameObject;
         woodHeldObjects = new List<GameObject>();
         ironHeldObjects = new List<GameObject>();
-        shieldHeldObjects = new List<GameObject>();
 
         playerControls = new PlayerControls();
 

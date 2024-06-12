@@ -47,8 +47,7 @@ public class Projectile : MonoBehaviour
                 } if (origin == "Enemy" && other.tag == "Player") {
                     other.GetComponent<Player>().Damage(damage);
                     Hit();
-                } if (other.tag == "Barrier") {
-                // } if ((origin == "Enemy" && other.tag == "Enemy") || (origin == "Player" && other.tag == "Player")) {
+                } if (other.CompareTag("Barrier") || (origin == "Enemy" && other.CompareTag("Enemy")) || (origin == "Player" && other.CompareTag("Player"))) {
                 } else {
                     Hit();
                 }
