@@ -56,7 +56,7 @@ MonoBehaviour:
   - Assets/Materials/Feather Light.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_f8e0ac1e-a2a4-4730-adb6-f404f727aa27
+    name: UM_OperatedMesh_2dcd2dd2-73fe-42cc-86df-f22eebb93679
     skinnedMesh: 0
     sharedMesh: {fileID: 3932124756177765621}
     buidVersion:
@@ -71,7 +71,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: f8e0ac1e-a2a4-4730-adb6-f404f727aa27
+  sourceMeshRendererGUID: 2dcd2dd2-73fe-42cc-86df-f22eebb93679
   guid: 12a7852f-9500-4d62-b188-6e8be6d233cf
   localOptions:
     RecalculateTangents: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   - Assets/Materials/Wood Light.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_415395ae-5f89-45ac-87e4-09e680f25eaa
+    name: UM_OperatedMesh_ef140254-849a-4121-a752-b300b6bdfc6e
     skinnedMesh: 0
     sharedMesh: {fileID: 5108992752817714277}
     buidVersion:
@@ -207,7 +207,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 415395ae-5f89-45ac-87e4-09e680f25eaa
+  sourceMeshRendererGUID: ef140254-849a-4121-a752-b300b6bdfc6e
   guid: 12a7852f-9500-4d62-b188-6e8be6d233cf
   localOptions:
     RecalculateTangents: 0
@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 7868062351864465624}
   - component: {fileID: 3770516664398370482}
   - component: {fileID: 7620677864691321375}
+  - component: {fileID: 586415571414571314}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Projectile
@@ -367,6 +368,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d77407a4f3b3047b34439f6f282ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 586415571414571314}
+--- !u!82 &586415571414571314
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7531717019344857371}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a2550f3779e1ab44bb7a3b4918da7054, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.02
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8793822451600026935
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +521,7 @@ MonoBehaviour:
   - Assets/Materials/Iron.mat
   currentMaterialIndex: 0
   renderableMesh:
-    name: UM_OperatedMesh_2f46015b-1907-4426-949e-0790c191fdab
+    name: UM_OperatedMesh_105af000-81b1-4a51-8d8a-a10e30973b3e
     skinnedMesh: 0
     sharedMesh: {fileID: 6279958152972115657}
     buidVersion:
@@ -438,7 +536,7 @@ MonoBehaviour:
     modifierList: []
     currentIndex: -1
   sourceMesh: {fileID: 0}
-  sourceMeshRendererGUID: 2f46015b-1907-4426-949e-0790c191fdab
+  sourceMeshRendererGUID: 105af000-81b1-4a51-8d8a-a10e30973b3e
   guid: 12a7852f-9500-4d62-b188-6e8be6d233cf
   localOptions:
     RecalculateTangents: 0

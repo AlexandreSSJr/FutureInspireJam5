@@ -7,11 +7,13 @@ public class Projectile : MonoBehaviour
     private float speed = 800f;
     private float lifetime = 5f;
     private float damage = 1f;
+    private bool alive = true;
 
     private Rigidbody rb;
     private string origin;
     private Vector3 direction;
     private Transform mesh;
+    public AudioSource hit;
 
     private static float GetAngleFromVectorFloat(Vector3 dir) {
         dir = dir.normalized;
@@ -34,19 +36,22 @@ public class Projectile : MonoBehaviour
     }
 
     private void Hit() {
+        alive = false;
         Destroy(mesh.gameObject);
         Destroy(gameObject, 0.2f);
     }
 
     void OnTriggerEnter(Collider other) {
-        if (mesh) {
+        if (alive) {
             if (other) {
                 if (origin == "Player" && other.tag == "Enemy") {
                     other.GetComponent<Enemy>().Damage(damage);
                     Hit();
+                    hit?.Play();
                 } if (origin == "Enemy" && other.tag == "Player") {
                     other.GetComponent<Player>().Damage(damage);
                     Hit();
+                    hit?.Play();
                 } if (other.CompareTag("Barrier") || (origin == "Enemy" && other.CompareTag("Enemy")) || (origin == "Player" && other.CompareTag("Player"))) {
                 } else {
                     Hit();
@@ -59,6 +64,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mesh = transform.Find("Mesh");
         Destroy(gameObject, lifetime);
+        alive = true;
     }
 
     void FixedUpdate() {

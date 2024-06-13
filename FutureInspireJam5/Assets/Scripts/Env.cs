@@ -4,8 +4,6 @@ using TMPro;
 
 public class Env : MonoBehaviour
 {
-    public static Env Instance { get; private set; }
-
     public float timer;
     public bool countTime = true;
     [SerializeField] private TMP_Text timerText;
@@ -13,8 +11,21 @@ public class Env : MonoBehaviour
 
     private void UpdateTimer() {
         timer -= Time.deltaTime;
-        timerText.text = Mathf.FloorToInt(timer / 60).ToString() + ":" + Mathf.FloorToInt(timer % 60).ToString();
-        if (timer <= 0) {
+
+        int minutes = Mathf.FloorToInt(timer % 60);
+        string minutesText;
+
+        if (minutes < 10) {
+            minutesText = "0" + minutes.ToString();
+        } else {
+            minutesText = minutes.ToString();
+        }
+
+        if (timerText) {
+            timerText.text = "0" + Mathf.FloorToInt(timer / 60).ToString() + ":" + minutesText;
+        }
+
+        if (timer < 1) {
             Victory();
         }
     }
@@ -26,16 +37,6 @@ public class Env : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         timer = 300;
         countTime = true;
     }

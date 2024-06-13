@@ -17,4 +17,9 @@ public class MenuManager : MonoBehaviour
     public void Exit() {
         Application.Quit();
     }
+
+    private void Start() {
+        Debug.Log(SceneManager.loadedSceneCount);
+        // SceneManager.UnloadSceneAsync(gameScene);
+    }
 }

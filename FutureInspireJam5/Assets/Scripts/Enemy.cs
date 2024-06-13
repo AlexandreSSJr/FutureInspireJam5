@@ -15,12 +15,17 @@ public class Enemy : MonoBehaviour
     private GameObject barrier;
     public GameObject projectile;
     public Slider healthSlider;
+    public AudioSource audioSpawn;
+    public AudioSource audioDeath;
+    public AudioSource audioAttack;
+    public AudioSource audioDamageBarrier;
 
     public void Damage(float dmg) {
         health -= dmg;
 
         if (health <= 0 && alive) {
             alive = false;
+            audioDeath.Play();
             Destroy(mesh);
             Destroy(gameObject, 0.2f);
         }
@@ -31,6 +36,7 @@ public class Enemy : MonoBehaviour
     private void DamageBarrier() {
         if (barrier) {
             barrier.GetComponent<Barrier>().Damage(attackDmg);
+            audioDamageBarrier.Play();
         }
     }
 
@@ -47,6 +53,7 @@ public class Enemy : MonoBehaviour
     private void Attack() {
         GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.7f, -3f), Quaternion.identity);
         newProjectile.GetComponent<Projectile>().Point("Enemy", attackDmg, Vector3.back.normalized);
+        audioAttack.Play();
     }
 
     private void Move() {
@@ -65,6 +72,8 @@ public class Enemy : MonoBehaviour
         movement = Vector3.back;
 
         InvokeRepeating(nameof(Attack), 0f, attackRate);
+
+        audioSpawn.Play();
     }
 
     void FixedUpdate() {

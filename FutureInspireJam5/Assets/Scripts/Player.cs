@@ -35,6 +35,12 @@ public class Player : MonoBehaviour
     public GameObject projectile;
     public Slider healthSlider;
     public List<Material> bowMaterials;
+    public AudioSource audioWoodGather;
+    public AudioSource audioMetalMine;
+    public AudioSource audioBowUpgrade;
+    public AudioSource audioShieldUpgrade;
+    public AudioSource audioAttack;
+    public AudioSource audioBarrierRepair;
 
     private Rigidbody rb;
     private Collider col;
@@ -142,6 +148,7 @@ public class Player : MonoBehaviour
         if (ironHeld < maxIronHeld) {
             ironHeldObjects.Add(Instantiate(iron, ironHold.transform.position + new Vector3(0, 0.4f * ironHeld, 0), transform.rotation, transform));
             ironHeld += 1;
+            audioMetalMine.Play();
         }
     }
 
@@ -149,6 +156,7 @@ public class Player : MonoBehaviour
         if (woodHeld < maxWoodHeld) {
             woodHeldObjects.Add(Instantiate(wood, woodHold.transform.position + new Vector3(0, 0.4f * woodHeld, 0), transform.rotation, transform));
             woodHeld += 1;
+            audioWoodGather.Play();
         }
     }
 
@@ -176,6 +184,8 @@ public class Player : MonoBehaviour
                     bow.GetComponent<Renderer>().material = bowMaterials[Mathf.Min(bowLevel, bowMaterials.Count)];
                     bowLevel += 1;
                     attackDmg += 1f;
+
+                    audioBowUpgrade.Play();
                 }
                 break;
             case "Shieldsmith":
@@ -193,6 +203,8 @@ public class Player : MonoBehaviour
                     maxHealth += 5f;
                     health += 5f;
                     healthSlider.value = health/maxHealth;
+
+                    audioShieldUpgrade.Play();
                 }
                 break;
             case "Barrier":
@@ -206,6 +218,8 @@ public class Player : MonoBehaviour
                     ironHeld -= ironCost;
                     RemoveIronHeld(ironCost);
                     barrier.Rebuild();
+                    
+                    audioBarrierRepair.Play();
                 }
                 break;
             default:
@@ -221,6 +235,7 @@ public class Player : MonoBehaviour
         if (shouldAttack) {
             GameObject newProjectile = Instantiate(projectile, transform.position + new Vector3(0, 0.7f, 3f), Quaternion.identity);
             newProjectile.GetComponent<Projectile>().Point("Player", attackDmg, Vector3.forward);
+            audioAttack.Play();
         }
     }
 
