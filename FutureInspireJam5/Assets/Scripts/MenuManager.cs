@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     private readonly string menuScene = "Menu";
-    private readonly string gameScene = "Game";
+    // private readonly string gameScene = "Game";
+    private readonly string introScene = "Intro";
 
     public void Play() {
-        SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+        SceneManager.LoadScene(introScene, LoadSceneMode.Single);
     }
 
     public void Menu() {
@@ -16,10 +17,5 @@ public class MenuManager : MonoBehaviour
 
     public void Exit() {
         Application.Quit();
-    }
-
-    private void Start() {
-        Debug.Log(SceneManager.loadedSceneCount);
-        // SceneManager.UnloadSceneAsync(gameScene);
     }
 }

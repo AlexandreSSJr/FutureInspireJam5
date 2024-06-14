@@ -165,12 +165,12 @@ public class Player : MonoBehaviour
         int ironCost;
 
         switch(near) {
-            case "Mine":
-                GatherIron();
-                break;
-            case "Tree":
-                GatherWood();
-                break;
+            // case "Mine":
+            //     GatherIron();
+            //     break;
+            // case "Tree":
+            //     GatherWood();
+            //     break;
             case "Swordsmith":
                 woodCost = 1;
                 ironCost = 3;
