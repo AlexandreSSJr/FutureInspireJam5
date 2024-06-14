@@ -46,12 +46,12 @@ public class Projectile : MonoBehaviour
             if (other) {
                 if (origin == "Player" && other.tag == "Enemy") {
                     other.GetComponent<Enemy>().Damage(damage);
+                    hit.Play();
                     Hit();
-                    hit?.Play();
                 } if (origin == "Enemy" && other.tag == "Player") {
                     other.GetComponent<Player>().Damage(damage);
+                    hit.Play();
                     Hit();
-                    hit?.Play();
                 } if (other.CompareTag("Barrier") || (origin == "Enemy" && other.CompareTag("Enemy")) || (origin == "Player" && other.CompareTag("Player"))) {
                 } else {
                     Hit();
